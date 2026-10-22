@@ -18,10 +18,11 @@ class HelloControllerTest {
     @Test
     void testSayHelloDefault() throws Exception {
         mockMvc.perform(get("/api/v1/hello")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("SUCCESS"))
-                .andExpect(jsonPath("$.message").value("Hello, Guest! Welcome to Kubernetes CI/CD."));
+                .andExpect(jsonPath("$.message").value(
+                        "Hello, Guest! Welcome to Version 2.0 deployed automatically via Jenkins CI/CD!"));
     }
 
     @Test

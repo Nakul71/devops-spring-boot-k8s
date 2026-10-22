@@ -30,12 +30,12 @@ public class HelloController {
 
         Map<String, String> details = new HashMap<>();
         details.put("environment", System.getenv().getOrDefault("APP_ENV", "development"));
-        details.put("version", "1.0.0");
+        details.put("version", "2.0.0");
         details.put("customMessage", customMessage);
 
         return new MessageResponse(
                 "SUCCESS",
-                "Hello, " + name + "! Welcome to Kubernetes CI/CD.",
+                "Hello, " + name + "! Welcome to Version 2.0 deployed automatically via Jenkins CI/CD!",
                 podName,
                 hostAddress,
                 Instant.now(),
