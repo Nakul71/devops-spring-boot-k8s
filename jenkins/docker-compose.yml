@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jenkins-ci-cd
+    restart: unless-stopped
+    user: root # Needed to access mounted docker.sock or Minikube certs
+    ports:
+      - "8080:8080"   # Jenkins Web UI
+      - "50000:50000" # Jenkins Inbound Agent port
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=true
+    volumes:
+      # Persistent Jenkins storage
+      - jenkins_home:/var/jenkins_home
+      # Mount host Docker daemon socket to enable Docker CLI in Jenkins
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Mount user's kube config and minikube certs if needed
+      - ~/.kube:/root/.kube:ro
+      - ~/.minikube:/root/.minikube:ro
+    networks:
+      - cicd-network
+
+networks:
+  cicd-network:
+    name: cicd-network
+    driver: bridge
+
+volumes:
+  jenkins_home:
+    name: jenkins_home_data
